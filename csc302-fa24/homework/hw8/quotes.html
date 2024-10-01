@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--Worked with Conrad and Troy-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes Generator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        
+        $(document).ready(function(){
+
+            $(document).on('click', '#quote-request', requestQuote);
+        
+        });
+
+        function requestQuote(){
+            // each click on "Get quotes" should remove any existing quotes from the page.
+            $('#quote-list').html('')
+            var QuoteNum = $('#quote-text').val();
+            if (QuoteNum => 0) {
+                // Make Request
+                $.ajax({
+                    url: 'quotes.php',
+                    method: 'post',
+                    data: { quotes: QuoteNum },
+                    success: function(data){
+                        // Populate list with quotes
+                        console.log(data);
+                        let parsedData;
+                        try {
+                            parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+                        } catch (error) {
+                            console.error("Failed to parse JSON:", error);
+                            return;
+                        }
+
+                        // Used CHATGBT here to figure out how to display key and value
+                        for (let key in parsedData) {
+                            if (parsedData.hasOwnProperty(key)) {
+                                const item = parsedData[key];
+                                $('#quote-list').prepend(`<li>${item.author}: ${item.quote}</li>`);
+                            }
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert(`Error ${textStatus}: ${errorThrown}`);
+                    }
+                });
+                
+                
+            }
+            console.log("VAl: " + QuoteNum);
+        }
+    </script>
+</head>
+   
+<body>
+
+    <div id="quote-inputer">
+        <input type="text" id="quote-text"/>
+        <button id="quote-request">Get quotes</button>
+    </div>
+
+    <div id="quote-display">
+        <ol id="quote-list">
+            <li></li>
+        </ol>
+    </div>
+</body>
+</html>
