@@ -1,6 +1,9 @@
 var questions = [];
 var questionCounter = 0;
 
+// CREATORS = TEO , CONRAD
+// Worked together
+
 $(document).ready(function(){
 
     // Add listeners to the buttons.

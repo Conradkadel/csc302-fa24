@@ -13,7 +13,10 @@
 <body>
 
 <?php
+// CREATORS = TEO , CONRAD
+// Worked together
 // For debugging:
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 

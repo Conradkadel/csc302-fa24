@@ -1,4 +1,7 @@
 <?php
+// CREATORS = TEO , CONRAD
+// Worked together
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
@@ -28,7 +31,8 @@ try{
     $columns = ['id', 'question', 'response'];
     $quiz = array();
     while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-       $quiz.array_push($quiz ,array("question"=>$row[$columns[1]], "response"=>$row[$columns[2]]));
+       $quiz.array_push($quiz 
+       ,array("question"=>$row[$columns[1]], "response"=>$row[$columns[2]]));
     };
 } catch(PDOException $e){
     echo "There was an error fetching rows from Books.";

@@ -1,5 +1,6 @@
 <?php
-
+// CREATORS = TEO , CONRAD
+// Worked together
 require_once("questions.php");
 
 error_reporting(E_ALL);
