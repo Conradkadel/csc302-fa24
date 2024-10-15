@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple API demo</title>
+    <style>
+        table, tr, td, th {
+            border: 1px solid gray;
+        }
+
+        .output {
+            width: 80em;
+            height: 10em;
+        }
+
+        .highlight {
+            border: 2px solid lightgreen;
+        }
+
+        .error {
+            border-color: red;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $(document).on('submit', 'form', function(event){
+                var $form = $(this);
+                console.log($form.serialize());
+                var $outputBox = $(this).siblings('.output');
+
+                $.ajax({
+                    url: 'api-server.php',
+                    data: $form.serialize(),
+                    method: 'post',
+                    success: function(data){
+                        console.log(data);
+                        // Pretty print the data.
+                        $outputBox.html(JSON.stringify(data, null, 2));
+                        $outputBox.addClass('highlight');
+
+                        if(!data.success){
+                            $outputBox.addClass('error');
+                        }
+                    },
+                    error: function(jqXHR, status, error){
+                        $outputBox.html(error);
+                        $outputBox.addClass('highlight').addClass('error');
+                    }, 
+
+                });
+
+                // Remove highlighting during request.
+                $('.highlight').removeClass('highlight').removeClass('error');
+
+                event.preventDefault();
+                return false;
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+    <div class="action-wrapper">
+        <h1>Add Quiz Item</h1>
+        <form>
+            <input type="hidden" name="action" value="add-quiz-item"/>
+            Question: <input type="text" name="question"/><br/>
+            Answer: <input type="text" name="answer"/><br/>
+            <input type="submit" value="Add Quiz Item"/>
+        </form>
+        <textarea class="output"></textarea>
+    </div>
+
+    <div class="action-wrapper">
+        <h1>Remove Quiz Item</h1>
+        <form>
+            <input type="hidden" name="action" value="remove-quiz-item"/>
+            Book ID: <input type="text" name="quiz_item_id"/><br/>
+            <input type="submit" value="Remove Quiz Item"/>
+        </form>
+        <textarea class="output"></textarea>
+    </div>
+
+    <div class="action-wrapper">
+        <h1>Update Quiz Item</h1>
+        <form>
+            <input type="hidden" name="action" value="update_quiz_item"/>
+            New Question: <input type="text" name="updated_question"/><br/>
+            New Answer: <input type="text" name="updated_answer"/><br/>
+            Question ID: <input type="text" name="quiz_item_id"/><br/>
+            <input type="submit" value="Update Quiz Item"/>
+        </form>
+        <textarea class="output"></textarea>
+    </div>
+
+
+    
+
+
+</body>
+</html>
